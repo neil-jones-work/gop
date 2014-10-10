@@ -1,6 +1,8 @@
 Geodesic Object Proposals
 =========================
 
+The initial commit is implemented by [Philipp Krähenbühl](http://www.philkr.net/).
+
 Dependencies
 ------------
 Required:
