@@ -51,7 +51,11 @@ def _unpickle_method(func_name, obj):
 	except AttributeError:
 		return None
 
-import copyreg, types
+import types, sys
+if str(sys.version_info.major)+ '.'+  str(sys.version_info.minor) == '2.7':
+   import copy_reg as copyreg
+else:
+   import copyreg
 copyreg.pickle(types.MethodType, _pickle_method, _unpickle_method)
 
 
