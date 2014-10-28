@@ -29,6 +29,12 @@ You can define several variables to load various datasets from the python bindin
  * BERKELEY_DIR: Directory of the BSD500 dataset (point to where 'groundTruth' and 'images' directories are located)
  * VOC_DIR: Directory of the VOCdevkit, with subfolders VOC2010, VOC2012, ... (point to where 'VOC2010', 'VOC2011', 'VOC2012' directories are located)
 
+How to install
+--------------
+sudo make install
+cd .
+echo 'export LD_LIBRARY_PATH=/usr/local/lib/we_cv_sdk/3rdparty:$LD_LIBRARY_PATH' >> ~/.bashrc
+
 Example:
 $ mkdir build
 $ cd build

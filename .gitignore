@@ -1,2 +1,5 @@
 build/
 *~
+*.mat
+*.mexa64
+*.pyc

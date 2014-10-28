@@ -162,7 +162,7 @@ def loadVOCAndOverSeg( im_set="test", detector="sf", N_SPIX=1000, EVAL_DIFFICULT
 			for i in over_segs:
 				over_seg.append( decompress(i) )
 			return over_seg,[decompress(i) for i in segmentations],[decompress(i) for i in boxes]
-	except FileNotFoundError:
+	except IOError:
 		pass
 	
 	# Load the dataset

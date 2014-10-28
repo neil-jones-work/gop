@@ -114,10 +114,10 @@ def train( n_masks=3, seed_func=None ):
 	from sys import stdout		
 	stdout.write( "Loading the data...                " )
 	stdout.flush()
-	over_segs,segmentations,boxes = loadVOCAndOverSeg( "train" , 'mssf', year="2012" )
+	over_segs,segmentations,boxes = loadVOCAndOverSeg( "train" , 'mssf', year="2007" )
 	print('[done]')
 	
-	
+	print str(over_segs)
 	stdout.write( "Computing seeds...                 " )
 	stdout.flush()
 	seeds = list( Parallel(n_jobs=-1)( delayed(seed_func.compute)( over_seg, N_SEED ) for over_seg in over_segs ) )
