@@ -32,10 +32,9 @@ You can define several variables to load various datasets from the python bindin
 How to install
 --------------
 sudo make install
-cd .
-echo 'export LD_LIBRARY_PATH=/usr/local/lib/we_cv_sdk/3rdparty:$LD_LIBRARY_PATH' >> ~/.bashrc
 
 Example:
+--------------
 $ mkdir build
 $ cd build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release -DVOC_DIR=/home/user/Downloads/VOCdevkit -DBERKELEY_DIR=/home/user/Downloads/BSDS500
