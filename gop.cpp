@@ -21,7 +21,7 @@ void GeodesicObjectProposal::loadDetector(const char *filename){
     detector.load(filename);
 }
 
-void GeodesicObjectProposal::getSegments(const cv::Mat src, std::vector<cv::Mat> &segments, const int top_segments){
+void GeodesicObjectProposal::getSegments(const cv::Mat src, std::vector<cv::Mat> &segments, const int nSuperPixels, const int top_segments){
     /* Create the proposlas */
     Proposal prop( prop_settings );
 
@@ -34,7 +34,7 @@ void GeodesicObjectProposal::getSegments(const cv::Mat src, std::vector<cv::Mat>
     pthread_mutex_lock(&this->mutex);
     static int nIters = 10;
     // Create an over-segmentation
-    std::shared_ptr<ImageOverSegmentation> s = geodesicKMeans( im, detector, top_segments,  nIters);
+    std::shared_ptr<ImageOverSegmentation> s = geodesicKMeans( im, detector, nSuperPixels,  nIters);
     RMatrixXb p = prop.propose( *s );
 
     // If you just want boxes use
@@ -44,7 +44,7 @@ void GeodesicObjectProposal::getSegments(const cv::Mat src, std::vector<cv::Mat>
     // you can get the binary segmentation mask using the following lines
     segments.reserve(top_segments);
 
-    for (int idx = 0; idx < p.rows(); ++idx){
+    for (int idx = 0; idx < std::min(top_segments, (int)p.rows()); ++idx){
 
         cv::Mat segment(src.rows, src.cols, CV_8UC1);
 #pragma omp parallel for

@@ -18,7 +18,7 @@ public:
 
     void loadDetector(const char *filename);
 
-    void getSegments(const cv::Mat src, std::vector<cv::Mat> &segments, const int top_segments = 500);
+    void getSegments(const cv::Mat src, std::vector<cv::Mat> &segments, const int nSuperPixels = 500, const int top_segments = 500);
 
 private:
 
