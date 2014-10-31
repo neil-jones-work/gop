@@ -31,6 +31,7 @@ You can define several variables to load various datasets from the python bindin
 
 How to install
 --------------
+make sure you have g++ 4.7 installed. Otherwise check this [link](http://charette.no-ip.com:81/programming/2011-12-24_GCCv47/)
 sudo make install
 
 Example:
