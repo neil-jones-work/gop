@@ -28,6 +28,7 @@
 # -*- encoding: utf-8# -*- encoding: utf-8# -*- encoding: utf-8from gop import *
 from util import *
 import numpy as np
+from gop import *
 
 def trainSeed( N_SEED=200, shrink=0.5, detector='mssf' ):
 	print("Training seeds")
@@ -43,7 +44,8 @@ def trainSeed( N_SEED=200, shrink=0.5, detector='mssf' ):
 		N,M = pseg.shape[0],np.max(pseg)+1
 		# Find the distance to the object boundary (for each object)
 		adj_list = [[] for i in range(N)]
-		from queue import Queue
+		#from queue import Queue
+		from Queue import Queue
 		q = Queue()
 		for e in over_seg.edges:
 			if pseg[e.a] != pseg[e.b]:

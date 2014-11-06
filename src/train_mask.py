@@ -114,7 +114,7 @@ def train( n_masks=3, seed_func=None ):
 	from sys import stdout		
 	stdout.write( "Loading the data...                " )
 	stdout.flush()
-	over_segs,segmentations,boxes = loadVOCAndOverSeg( "train" , 'mssf', year="2007" )
+	over_segs,segmentations,boxes = loadVOCAndOverSeg( "train" , 'mssf', year="2012" )
 	print('[done]')
 	
 	print str(over_segs)

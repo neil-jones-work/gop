@@ -3,3 +3,6 @@ build/
 *.mat
 *.mexa64
 *.pyc
+src/*
+*.pyc
+lib/python/dataset/CMakeLists.txt

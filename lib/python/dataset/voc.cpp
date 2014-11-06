@@ -82,7 +82,7 @@ template<int YEAR>
 static dict loadEntry( const std::string & name, bool load_seg = true, bool load_im = true ) {
 	const std::string base_dir = voc_dir + "/VOC" + std::to_string(YEAR) + "/";
 	dict r;
-	char buf[1024];
+    char buf[1024];
 	if( load_seg ) {
 		sprintf( buf, (base_dir+VOC_OBJECT).c_str(), name.c_str() );
 		np::ndarray olbl = readIPNG( buf );
@@ -140,7 +140,7 @@ list loadVOC2012( bool train, bool valid, bool test ) {
 			while(is.is_open() && !is.eof()) {
 				std::string l;
 				std::getline(is,l);
-				if( !l.empty() ) {
+                if( !l.empty() ) {
 					dict d = loadEntry<2012>( l );
 					if( len( d ) )
 						r.append( d );

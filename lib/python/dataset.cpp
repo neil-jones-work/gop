@@ -32,6 +32,7 @@
 #include "dataset/image.h"
 #include "dataset/nyu.h"
 #include "dataset/voc.h"
+#include "dataset/similify.h"
 #include "dataset/weizmann.h"
 #include "gop.h"
 #include "util.h"
@@ -206,6 +207,7 @@ void defineDataset() {
 	def("labelsNYU04", labelsNYU04);
 	def("labelsNYU40", labelsNYU40);
 	def("loadCOCO2014", loadCOCO2014);
+    def("loadSIMILIFY", loadSIMILIFY);
 	def("cocoNFolds", cocoNFolds);
 	def("matchAny", matchAny );
 	def("matchBp", matchBp );

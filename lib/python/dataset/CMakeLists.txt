@@ -46,5 +46,10 @@ endif()
 
 include_directories( ${MATIO_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS} )
 
-add_library( dataset nyu.cpp voc.cpp apng.cpp berkeley.cpp evaluation.cpp covering.cpp weizmann.cpp coco.cpp )
-target_link_libraries( dataset imgproc ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} boost_numpy ${ZLIB_LIBRARIES} ${MATIO_LIBRARIES} )
+# Find OpenCV
+find_package(OpenCV 2 REQUIRED)
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+link_directories( ${OpenCV_LIBS} )
+
+add_library( dataset nyu.cpp voc.cpp apng.cpp berkeley.cpp evaluation.cpp covering.cpp weizmann.cpp coco.cpp similify.cpp)
+target_link_libraries( dataset imgproc ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} boost_numpy ${ZLIB_LIBRARIES} ${MATIO_LIBRARIES} opencv_core)

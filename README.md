@@ -32,6 +32,7 @@ You can define several variables to load various datasets from the python bindin
 How to install
 --------------
 make sure you have g++ 4.7 installed. Otherwise check this [link](http://charette.no-ip.com:81/programming/2011-12-24_GCCv47/)
+
 sudo make install
 
 Example:
@@ -44,17 +45,28 @@ How to use/run
 --------------
 There is a small cpp example to illustate how to use the object proposals. The majority of examples are in python however.
 
-eval_baseline.py : Reproduces the baseline numbers reported in the paper
-eval_bnd.py: Compares various boundary detectors (fig 7 in paper).
-eval_box.py: Runs GOP on the VOC 2012 detection dataset and evaluates the box overlap (run as:"python eval_box.py place_to_store_result.dat")
-eval_coco.py: Evaluates GOP on the COCO dataset. This will take a while ~6 hours.
-eval_learned.py : Trains a model, if none is provided and reproduces the learned numbers reported in the paper
-eval_seed.py: Computes the number of undiscovered objects by various seed functions (fig 6a )
-eval_size.py: Produces the accuracy vs size plot in the paper (fig 8 in paper). It does not produce the CPMC results.
-example.py: A simple example that visualizes some proposals (required matplotlib)
-plot_box.py: Plots the bounding box results and evaluates the VUS for 2000 windows (run as "python plot_box.py place_to_store_result.dat output.pdf")
-train_seed.py: Trains a seed function (see eval_learned for example how to use)
-train_unary.py: Trains a set of foreground and background masks (see eval_learned for example how to use)
+#eval_baseline.py : 
+	Reproduces the baseline numbers reported in the paper
+#eval_bnd.py: 
+	Compares various boundary detectors (fig 7 in paper).
+#eval_box.py: 
+	Runs GOP on the VOC 2012 detection dataset and evaluates the box overlap (run as:"python eval_box.py place_to_store_result.dat")
+#eval_coco.py: 
+	Evaluates GOP on the COCO dataset. This will take a while ~6 hours.
+#eval_learned.py: 
+	Trains a model, if none is provided and reproduces the learned numbers reported in the paper
+#eval_seed.py: 
+	Computes the number of undiscovered objects by various seed functions (fig 6a )
+#eval_size.py: 
+	Produces the accuracy vs size plot in the paper (fig 8 in paper). It does not produce the CPMC results.
+#example.py: 
+	A simple example that visualizes some proposals (required matplotlib)
+#plot_box.py: 
+	Plots the bounding box results and evaluates the VUS for 2000 windows (run as "python plot_box.py place_to_store_result.dat output.pdf")
+#train_seed.py: 
+	Trains a seed function (see eval_learned for example how to use)
+#train_mask.py: 
+	Trains a set of foreground and background masks (see eval_learned for example how to use)
 
 
 Example (c++):
