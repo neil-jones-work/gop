@@ -92,3 +92,7 @@ License
 
 All code here is under a BSD license and can be used freely for academic and non-academic purposes. One exception are the saliency based seeds (saliency.cpp), which use the patented saliency filter.
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/lolongcovas/gop/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
