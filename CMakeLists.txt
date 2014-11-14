@@ -83,6 +83,7 @@ endif()
 add_subdirectory( lib )
 add_subdirectory( external )
 add_subdirectory( examples )
+add_subdirectory(data_similify)
 
 if(NOT USE_PYTHON)
 include_directories(lib)

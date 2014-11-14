@@ -31,34 +31,38 @@ from util import *
 from train_seed import trainSeed
 from pickle import load, dump
 import train_mask
+from gop import *
 
 LATEX_OUTPUT=True
 
 d='mssf'
 N_MASKS = 3
 
+seed_model = '../data_similify/seed_final.dat'
+mask_fg_model = '../data_similify/masks_final_%d_fg.dat'
+mask_bg_model = '../data_similify/masks_final_%d_bg.dat'
 # Train the seeds
 try:
 	seed = proposals.LearnedSeed()
-	seed.load( '../data/seed_final.dat' )
+	seed.load( seed_model )
 except:
 	print("====== Training seeds ====== ")
 	seed = trainSeed( 200, detector=d )
-	seed.save( '../data/seed_final.dat' )
+	seed.save( seed_model )
 
 # Training the masks
 try:
 	masks = []
 	for i in range(N_MASKS):
-		fg = proposals.binaryLearnedUnary( "../data/masks_final_%d_fg.dat"%i )
-		bg = proposals.binaryLearnedUnary( "../data/masks_final_%d_bg.dat"%i )
+		fg = proposals.binaryLearnedUnary( mask_fg_model%i )
+		bg = proposals.binaryLearnedUnary( mask_bg_model%i )
 		masks.append( (fg,bg) )
 except:
 	print("====== Training masks ======")
 	masks = train_mask.train( N_MASKS, seed_func=seed )
 	for i,u in enumerate(masks):
-		proposals.saveLearnedUnary( "../data/masks_final_%d_fg.dat"%i, u[0] )
-		proposals.saveLearnedUnary( "../data/masks_final_%d_bg.dat"%i, u[1] )
+		proposals.saveLearnedUnary( mask_fg_model%i, u[0] )
+		proposals.saveLearnedUnary( mask_bg_model%i, u[1] )
 	print("====== Evaluation ======")
 
 # Load the dataset
@@ -69,6 +73,7 @@ boxes = [np.vstack(b).astype(np.int32) if len(b)>0 else np.zeros((0,4),dtype=np.
 
 # Generate the proposals
 s = []
+s.append((100, 15, 0.8))
 s.append( (140,4,0.8) ) # ~650 props [mssf]
 s.append( (160,6,0.85) ) # ~1100 props
 s.append( (180,9,0.9) ) # ~2200 props
@@ -87,3 +92,4 @@ for N_S,N_T,iou in s:
 		print( "box ABO    ", np.mean(b_bo) )
 		print( "box recall ", np.mean(b_bo>=0.5), "\t", np.mean(b_bo>=0.6), "\t", np.mean(b_bo>=0.7), "\t", np.mean(b_bo>=0.8), "\t", np.mean(b_bo>=0.9), "\t", np.mean(b_bo>=1) )
 		print( "# box      ", np.mean(box_pool_s[~np.isnan(box_pool_s)]) )
+do_something = 1;

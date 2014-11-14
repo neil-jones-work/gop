@@ -18,12 +18,19 @@ int main( int argc, const char * argv[] ) {
 	
 	// Load the seed function
 	std::shared_ptr<LearnedSeed> seed = std::make_shared<LearnedSeed>();
-	seed->load( "../data/seed_final.dat" );
+//	seed->load( "../data/seed_final.dat" );
+    seed->load( "/usr/local/share/we-cv-sdk/pretrained_model/gop/seed_final.dat" );
 	prop_settings.foreground_seeds = seed;
 	
 	// Load the foreground/background proposals
-	for( int i=0; i<3; i++ )
-		prop_settings.unaries.push_back( ProposalSettings::UnarySettings( N_S, N_T, binaryLearnedUnary("../data/masks_final_"+std::to_string(i)+"_fg.dat"), binaryLearnedUnary("../data/masks_final_"+std::to_string(i)+"_bg.dat") ) );
+    for( int i=0; i<3; i++ ){
+        prop_settings.unaries.push_back( ProposalSettings::UnarySettings( N_S,
+                                                                          N_T,
+                                                                          binaryLearnedUnary(("/usr/local/share/we-cv-sdk/pretrained_model/gop/masks_final_" + std::to_string(i)+ "_fg.dat").c_str()),
+                                                                          binaryLearnedUnary(("/usr/local/share/we-cv-sdk/pretrained_model/gop/masks_final_" + std::to_string(i)+ "_bg.dat").c_str()) ) );
+
+//		prop_settings.unaries.push_back( ProposalSettings::UnarySettings( N_S, N_T, binaryLearnedUnary("../data/masks_final_"+std::to_string(i)+"_fg.dat"), binaryLearnedUnary("../data/masks_final_"+std::to_string(i)+"_bg.dat") ) );
+    }
 	// Pure background proposals
 	std::vector<int> allbg = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 	prop_settings.unaries.push_back( ProposalSettings::UnarySettings( 0, N_T, zeroUnary(), backgroundUnary(allbg), 0.1, 1  ) );

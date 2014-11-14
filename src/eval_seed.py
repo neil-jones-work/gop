@@ -29,10 +29,10 @@
 import numpy as np
 from pickle import load
 from util import *
+from gop import *
 
 # GOP settings
 N_SEED = [1,2,5,10,20,35,50,75,100,200]
-
 seed_functions = [load( open('../data/seed_final.dat','rb') ),proposals.GeodesicSeed(),proposals.SegmentationSeed(),proposals.RegularSeed(),proposals.RandomSeed()]
 recomp = [0,0,1,1,0,0]
 if __name__ == "__main__":

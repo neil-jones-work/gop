@@ -6,3 +6,4 @@ build/
 src/*
 *.pyc
 lib/python/dataset/CMakeLists.txt
+*.so
