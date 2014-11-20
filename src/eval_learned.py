@@ -38,9 +38,9 @@ LATEX_OUTPUT=True
 d='mssf'
 N_MASKS = 3
 
-seed_model = '../data_similify/seed_final.dat'
-mask_fg_model = '../data_similify/masks_final_%d_fg.dat'
-mask_bg_model = '../data_similify/masks_final_%d_bg.dat'
+seed_model = '../data/seed_final.dat'
+mask_fg_model = '../data/masks_final_%d_fg.dat'
+mask_bg_model = '../data/masks_final_%d_bg.dat'
 # Train the seeds
 try:
 	seed = proposals.LearnedSeed()

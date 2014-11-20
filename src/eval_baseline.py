@@ -28,11 +28,13 @@
 # -*- encoding: utf-8# -*- encoding: utf-8# -*- encoding: utf-8from gop import *
 import numpy as np
 from util import *
+from gop import *
 
 LATEX_OUTPUT=True
 
 # Load the dataset
-over_segs,segmentations,boxes = loadVOCAndOverSeg( "test", detector='mssf', year="2012" )
+#over_segs,segmentations,boxes = loadVOCAndOverSeg( "test", detector='mssf', year="2012" )
+over_segs,segmentations,boxes = loadMyOwnData()
 #over_segs,segmentations,boxes = loadCOCOAndOverSeg( "valid", N_SPIX=2000, detector='mssf', fold=0 )
 has_box = [len(b)>0 for b in boxes]
 boxes = [np.vstack(b).astype(np.int32) if len(b)>0 else np.zeros((0,4),dtype=np.int32) for b in boxes]

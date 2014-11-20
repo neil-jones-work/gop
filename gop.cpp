@@ -40,8 +40,6 @@ GeodesicObjectProposal::GeodesicObjectProposal(){
         std::vector<int> allbg = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
         prop_settings.unaries.push_back( ProposalSettings::UnarySettings( 0, this->nSegmentsPerSeed, zeroUnary(), backgroundUnary(allbg), 0.1, 1  ) );
     }
-    std::cout<<"asfa"<<std::endl;
-    std::cout.flush();
 }
 
 void GeodesicObjectProposal::loadDetector(const char *filename){
