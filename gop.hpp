@@ -16,17 +16,13 @@ public:
         return instance;
     }
 
-    void loadDetector(const char *filename);
-
-    void loadSeeds(const char *filename);
-
-    void loadMask(const char *fg_mask_filename, const char *bg_mask_filename);
+    void loadDetector(char *filename, const bool use_supervised = false);
 
     void setPureBackgroundProposals();
 
-    void getSegments(const cv::Mat src, std::vector<cv::Mat> &segments, const int nSuperPixels = 500, const int top_segments = 500);
+    void getSegments(const cv::Mat src, std::vector<cv::Mat> &segments, const int nSuperPixels = 500, const int top_segments = -1);
 
-    void apply(const cv::Mat src, std::vector<cv::Mat> &segments, const int nSuperPixels = 500, const int top_segments = 500);
+    void apply(const cv::Mat src, std::vector<cv::Mat> &segments, std::vector<cv::Rect> &bboxes, const int nSuperPixels = 500, const int top_segments = -1);
 
 private:
 

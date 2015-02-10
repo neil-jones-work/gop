@@ -4,15 +4,18 @@
 
 
 GeodesicObjectProposal::GeodesicObjectProposal(){
-
     pthread_mutex_init(&this->mutex, NULL);
+}
+
+void GeodesicObjectProposal::loadDetector(char *filename, const bool use_supervised){
+    detector.load(filename);
+
     this->nSeeds = 200; // N_S
     this->nSegmentsPerSeed = 10; // N_T
 
     this->prop_settings.max_iou = 0.9;
 
-    bool learn = true;
-    if (!learn){
+    if (!use_supervised){
         // Foreground/background proposals
         std::vector<int> vbg = {0,15};
         this->prop_settings.unaries.push_back( ProposalSettings::UnarySettings( this->nSeeds, this->nSegmentsPerSeed, seedUnary(), backgroundUnary(vbg) ) );
@@ -42,20 +45,16 @@ GeodesicObjectProposal::GeodesicObjectProposal(){
     }
 }
 
-void GeodesicObjectProposal::loadDetector(const char *filename){
-    detector.load(filename);
-}
+//void GeodesicObjectProposal::loadSeeds(const char *filename){
+//    // Load the seed function
+//    std::shared_ptr<LearnedSeed> seed = std::make_shared<LearnedSeed>();
+//    seed->load( filename );
+//    this->prop_settings.foreground_seeds = seed;
+//}
 
-void GeodesicObjectProposal::loadSeeds(const char *filename){
-    // Load the seed function
-    std::shared_ptr<LearnedSeed> seed = std::make_shared<LearnedSeed>();
-    seed->load( filename );
-    this->prop_settings.foreground_seeds = seed;
-}
-
-void GeodesicObjectProposal::loadMask(const char *fg_mask_filename, const char *bg_mask_filename){
-    this->prop_settings.unaries.push_back( ProposalSettings::UnarySettings( this->nSeeds, this->nSegmentsPerSeed, binaryLearnedUnary(fg_mask_filename), binaryLearnedUnary(bg_mask_filename) ) );
-}
+//void GeodesicObjectProposal::loadMask(const char *fg_mask_filename, const char *bg_mask_filename){
+//    this->prop_settings.unaries.push_back( ProposalSettings::UnarySettings( this->nSeeds, this->nSegmentsPerSeed, binaryLearnedUnary(fg_mask_filename), binaryLearnedUnary(bg_mask_filename) ) );
+//}
 
 
 void GeodesicObjectProposal::setPureBackgroundProposals(){
@@ -103,7 +102,7 @@ void GeodesicObjectProposal::getSegments(const cv::Mat src, std::vector<cv::Mat>
 
 
 
-void GeodesicObjectProposal::apply(const cv::Mat src, std::vector<cv::Mat> &segments, const int nSuperPixels, const int top_segments){
+void GeodesicObjectProposal::apply(const cv::Mat src, std::vector<cv::Mat> &segments, std::vector<cv::Rect> &bboxes, const int nSuperPixels, const int top_segments){
 
     /* Create the proposlas */
     Proposal prop( this->prop_settings );
@@ -114,6 +113,8 @@ void GeodesicObjectProposal::apply(const cv::Mat src, std::vector<cv::Mat> &segm
 
     Image8u im(rgb.cols, rgb.rows, rgb.channels()); // we should copy the image data
     memcpy(im.data(), rgb.data, sizeof(unsigned char) *3 * rgb.rows * rgb.cols);
+
+    /****** LOCK MUTEX ******/
     pthread_mutex_lock(&this->mutex);
 
     static int nIters = 10;
@@ -122,8 +123,20 @@ void GeodesicObjectProposal::apply(const cv::Mat src, std::vector<cv::Mat> &segm
 
     RMatrixXb p = prop.propose( *s );
 
-    segments.reserve(top_segments);
-    for (int idx = 0; idx < std::min(top_segments, (int)p.rows()); ++idx){
+    int nSegments;
+    if (top_segments < 0)
+        nSegments = (int)p.rows();
+    else
+        nSegments = top_segments;
+    segments.reserve(nSegments);
+    bboxes.reserve(nSegments);
+
+    // boxes -> [x0, y0, x1, y1]
+    RMatrixXi boxes = s->maskToBox( p );
+
+    for (int idx = 0; idx < nSegments; ++idx){
+
+        // extract segments
         cv::Mat segment(src.rows, src.cols, CV_8UC1);
 #pragma omp parallel for
         for( int j=0; j<s->s().rows(); ++j ){
@@ -132,8 +145,15 @@ void GeodesicObjectProposal::apply(const cv::Mat src, std::vector<cv::Mat> &segm
                 ptr[i] = p( idx, s->s()(j,i) );
         }
         segments.push_back(segment);
+
+        // extract bbox
+        cv::Rect box(boxes(idx, 0), boxes(idx, 1), boxes(idx, 2) - boxes(idx, 0)+1, boxes(idx, 3) - boxes(idx, 1)+1);
+        bboxes.push_back(box);
     }
     segments.resize(segments.size());
 
+
+
+    /****** UNLOCK MUTEX ******/
     pthread_mutex_unlock(&this->mutex);
 }
