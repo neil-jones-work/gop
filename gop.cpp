@@ -151,7 +151,7 @@ void GeodesicObjectProposal::apply(const cv::Mat src, std::vector<cv::Mat> &segm
         bboxes.push_back(box);
     }
     segments.resize(segments.size());
-
+    bboxes.resize(bboxes.size());
 
 
     /****** UNLOCK MUTEX ******/
