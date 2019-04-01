@@ -23,6 +23,16 @@ if(OPENMP_FOUND)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
+# Checking for OpenCV
+find_package( OpenCV )
+if(OPENCV_FOUND)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenCV_C_FLAGS}")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenVC_CXX_FLAGS}")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenCV_EXE_LINKER_FLAGS}")
+else()
+	message( FATAL_ERROR "OpenCV2 required" )
+endif()
+
 if(MSVC)
 	set(Boost_USE_STATIC_LIBS       ON)
 	set(Boost_USE_MULTITHREADED     OFF)

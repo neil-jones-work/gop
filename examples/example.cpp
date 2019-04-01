@@ -3,6 +3,7 @@
 #include "proposals/proposal.h"
 #include "segmentation/segmentation.h"
 #include "imgproc/image.h"
+#include <opencv2/opencv.hpp>
 
 int main( int argc, const char * argv[] ) {
 
@@ -41,6 +42,7 @@ int main( int argc, const char * argv[] ) {
 	for( int i=1; i<argc; i++ ) {
 		// Load an image
 		Image8u im = imread(argv[i]);
+		cv::Mat imcv = cv::imread(argv[i]);
 		
 		// Create an over-segmentation
 		std::shared_ptr<ImageOverSegmentation> s = geodesicKMeans( im, detector, 1000 );
@@ -52,12 +54,27 @@ int main( int argc, const char * argv[] ) {
 		
 		// To use the proposals use the over segmentation s.s() and p.row(n)
 		// you can get the binary segmentation mask using the following lines
-		int n_prop = 0;
+		//int n_prop = 0;
 		
-		RMatrixXb segment( s->s().rows(), s->s().cols() );
-		for( int j=0; j<s->s().rows(); j++ )
-			for( int i=0; i<s->s().cols(); i++ )
-				segment(j,i) = p( n_prop, s->s()(j,i) );
+		//RMatrixXb segment( s->s().rows(), s->s().cols() );
+		//for( int j=0; j<s->s().rows(); j++ )
+		//	for( int i=0; i<s->s().cols(); i++ )
+		//		segment(j,i) = p( n_prop, s->s()(j,i) );
+
+		for (int j=0; j<std::min(20,(int)p.rows()); j++) {
+			cv::Rect cvr;
+			cvr.x = boxes(j,0);
+			cvr.y = boxes(j,1);
+			cvr.width = boxes(j,2) - boxes(j,0);
+			cvr.height = boxes(j,3) - boxes(j,1);
+
+			cv::rectangle(imcv, cvr, cv::Scalar(0.0,255.0,0.0), 2);
+
+		}
+		std::string outfile(argv[i]);
+		outfile.insert(0,"out_");
+
+		imwrite(outfile,imcv);
 	}
 
 	return 0;
