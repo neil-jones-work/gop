@@ -33,6 +33,7 @@
 #include <deque>
 #include <vector>
 #include <memory>
+#include <functional>
 
 template<typename T> class LockFreeQueue {
 public:

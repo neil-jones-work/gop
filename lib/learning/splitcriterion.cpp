@@ -31,6 +31,7 @@
 #include <iostream>
 #include <Eigen/SVD>
 #include <Eigen/Eigenvalues>
+#include <random>
 
 int SplitCriterion::repLabel() const {
 	return -1;
